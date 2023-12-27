@@ -21,4 +21,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5000:5000
+    
+  frontend:
+    build: 
+      context: frontend/twitter_clone
+      dockerfile: Dockerfile
+    ports:
+      - 3000:8080
   
