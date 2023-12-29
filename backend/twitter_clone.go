@@ -25,8 +25,6 @@ func main() {
 }
 
 func getTweet(c *gin.Context) {
-	pgxpool.New(context.Background())
-	tweet_id := c.Param("id")
 
 }
 
