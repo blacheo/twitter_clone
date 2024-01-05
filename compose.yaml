@@ -18,6 +18,8 @@ services:
   adminer:
     image: adminer
     restart: always
+    depends_on:
+      - db
     ports:
       - 2000:8080
 
@@ -25,6 +27,8 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    depends_on:
+      - db
     ports:
       - 5000:5000
     
@@ -32,6 +36,8 @@ services:
     build: 
       context: frontend/twitter_clone
       dockerfile: Dockerfile
+    depends_on:
+      - backend
     ports:
       - 3000:8080
   

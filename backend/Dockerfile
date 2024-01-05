@@ -4,7 +4,8 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY *.go ./
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+
 EXPOSE 5000
 
-CMD ["/docker-gs-ping"]
+
+CMD go run twitter_clone.go
