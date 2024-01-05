@@ -1,6 +1,6 @@
 CREATE TABLE tweets (
     id int PRIMARY KEY,
-    user_id varchar(30) FOREIGN KEY,
+    user_id varchar(30),
     content varchar(100)
 );
 
