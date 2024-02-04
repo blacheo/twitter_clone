@@ -1,27 +1,28 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-
+	_ "github.com/lib/pq"
 	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
 type Server struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
 func main() {
-	UNAMEDB := os.Getenv("UNAMEDB")
-	PASSDB := os.Getenv("PASSDB")
-	HOSTDB := os.Getenv("HOSTDB")
-	DBNAME := os.Getenv("DBNAME")
+	USERDB := os.Getenv("DB_USER")
+	PASSDB := os.Getenv("DB_PASS")
+	HOSTDB := os.Getenv("DB_HOST")
+	DBNAME := os.Getenv("DB_NAME")
 	os.Getenv("")
-	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", UNAMEDB, PASSDB, HOSTDB, DBNAME)
-	db, err := sql.Open("postgres", connStr)
+	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", 
+	HOSTDB, 5432, USERDB, PASSDB, DBNAME, "disable")
+	db, err := sqlx.Connect("postgres", connStr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 	}
@@ -46,9 +47,9 @@ func setupRouter(server *Server) *gin.Engine {
 }
 
 func (s *Server) getTweet(c *gin.Context) {
-	id := c.Query("id")
+	id := c.Param("id")
 	var tweet Tweet
-	err := s.db.QueryRow(fmt.Sprintf("SELECT * FROM tweets WHERE id=%s", id)).Scan(&tweet)
+	err := s.db.Get(&tweet, fmt.Sprintf("SELECT * FROM tweets WHERE id=%s", id))
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
