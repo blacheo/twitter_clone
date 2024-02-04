@@ -1,9 +1,7 @@
 package api_test
 
-import (
-	"testing"
-)
+import "testing"
 
-func TestGetAllTweets(t *testing.T) {
+func TestGetTweet(t *testing.T) {
 
 }

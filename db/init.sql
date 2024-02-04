@@ -1,3 +1,6 @@
+CREATE USER docker;
+GRANT ALL PRIVILEGES ON DATABASE twitter TO docker;
+
 CREATE TABLE tweets (
     id int PRIMARY KEY,
     user_id varchar(30),
