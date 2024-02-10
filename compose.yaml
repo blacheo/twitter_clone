@@ -4,20 +4,23 @@ version: '3.1'
 services:
 
   db:
-    image: postgres
+    image: postgres:9.5.10
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: pass
       POSTGRES_DB: twitter
       POSTGRES_USER: user
+      POSTGRES_HOST_AUTH_METHOD: md5
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - 8080:8080
+      - 5432:5432
 
   adminer:
     image: adminer
     restart: always
+    depends_on:
+      - db
     ports:
       - 2000:8080
 
@@ -25,13 +28,19 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    depends_on:
+      - db
     ports:
       - 5000:5000
+    env_file:
+      - docker.env
     
   frontend:
     build: 
       context: frontend/twitter_clone
       dockerfile: Dockerfile
+    depends_on:
+      - backend
     ports:
       - 3000:8080
   
