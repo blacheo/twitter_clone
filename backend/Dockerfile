@@ -8,4 +8,6 @@ COPY *.go ./
 EXPOSE 5000
 
 
+
 CMD go run *.go
+
