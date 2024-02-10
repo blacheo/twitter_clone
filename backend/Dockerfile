@@ -8,4 +8,4 @@ COPY *.go ./
 EXPOSE 5000
 
 
-CMD go run twitter_clone.go
+CMD go run *.go
