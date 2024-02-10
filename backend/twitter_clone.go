@@ -5,9 +5,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-	_ "github.com/lib/pq"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
 type Server struct {
@@ -76,34 +77,8 @@ func (s *Server) getTopTweets(c *gin.Context) {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 	}
 	c.JSON(http.StatusOK, tweets)
-=======
-
 }
 
-func setupRouter(server *Server) *gin.Engine {
-	router := gin.Default()
-	router.GET("/tweet/:id", server.getTweet)
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
-	return router
-}
-
-func (s *Server) getTweet(c *gin.Context) {
-	id := c.Param("id")
-	var tweet Tweet
-	err := s.db.Get(&tweet, fmt.Sprintf("SELECT * FROM tweets WHERE id=%s", id))
-
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
-	}
-
-	c.JSON(http.StatusOK, tweet)
-
-}
 func (s *Server) postTweet(c *gin.Context) {
 
 }
