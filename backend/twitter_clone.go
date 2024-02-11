@@ -38,6 +38,8 @@ func main() {
 
 func setupRouter(server *Server) *gin.Engine {
 	router := gin.Default()
+
+	router.Use(corsMiddleware())
 	router.GET("/tweet/:id", server.getTweet)
 	router.GET("/tweets", server.getTopTweets)
 	router.GET("/", func(c *gin.Context) {

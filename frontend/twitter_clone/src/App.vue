@@ -1,19 +1,44 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import SearchBar from './components/SearchBar.vue';
+import Tweet from './components/Tweet.vue';
+import axios from 'axios';
+import {ref, onMounted as onMounted} from 'vue';
+
+const tweets = ref(null)
+
+
+onMounted(() => {
+axios
+.get('http://localhost:5000/tweets')
+.then(response => {tweets.value = response.data})
+.catch(error => {
+  console.log(error)
+  tweets.errored = true
+}
+)
+
+
+})
+
+
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      
     </div>
   </header>
 
   <main>
-    <TheWelcome />
+    <h1>Twitter Clone</h1>
+    <SearchBar/>
+    
+      <template v-for="tweet in tweets">
+        <Tweet v-bind:user="tweet.user_id" v-bind:content="tweet.content"/>
+      </template>
+    
   </main>
 </template>
 
