@@ -1,5 +1,7 @@
 # twitter_clone
 
+A Twitter clone using Docker, Vue.js and Golang
+
 ## Run Instructions
 
 Requires Docker
