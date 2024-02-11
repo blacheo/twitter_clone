@@ -1,16 +1,26 @@
 <script setup>
 import SearchBar from './components/SearchBar.vue';
 import Tweet from './components/Tweet.vue';
-import axios from 'axios'
-var tweets
+import axios from 'axios';
+import {ref, onMounted as onMounted} from 'vue';
+
+const tweets = ref(null)
+
+
+onMounted(() => {
 axios
-  .get("http://localhost:5000/tweets")
-  .then(response => (tweets = response))
-  .catch(error => {
-    console.log(error)
-    tweets.errored = true
-  }
-  )
+.get('http://localhost:5000/tweets')
+.then(response => {tweets.value = response.data})
+.catch(error => {
+  console.log(error)
+  tweets.errored = true
+}
+)
+
+
+})
+
+
 </script>
 
 <template>
@@ -26,7 +36,7 @@ axios
     <SearchBar/>
     
       <template v-for="tweet in tweets">
-        <Tweet user="{{ tweet.user }}" content="{{ tweet.content }}"/>
+        <Tweet v-bind:user="tweet.user_id" v-bind:content="tweet.content"/>
       </template>
     
   </main>
