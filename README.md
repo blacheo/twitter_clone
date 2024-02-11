@@ -1,6 +1,6 @@
 # twitter_clone
 
-A Twitter clone using Docker, Vue.js and Golang
+A Twitter clone using Docker, Vue.js, Postgresql and Golang
 
 ## Run Instructions
 
